@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
 import { firebaseAuth } from '../utils/firebase.config';
-import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [ showPassword , setShowPassword] = useState(false)
@@ -24,10 +24,14 @@ const Signup = () => {
       console.log(error);
     }
   }
+  
 
-  onAuthStateChanged(firebaseAuth,(currentUser)=>{
-    if(currentUser) navigate("/")
-  });
+  useEffect(()=>{
+    onAuthStateChanged(firebaseAuth,(currentUser)=>{
+      if(currentUser) navigate("/")
+    });
+  
+  })
 
   return (
     <Container showPassword={showPassword}>
@@ -60,7 +64,7 @@ position:relative;
   position:absolute;
   top:0;
   left:0;
-  background-color:rgba(0,0,0,0.5)
+  background-color:rgba(0,0,0,0.5);
   height:100vh;
   width:100vw;
   display:grid;
@@ -93,7 +97,7 @@ position:relative;
         padding:0.5rem 1rem;
         background-color:#e50914;
         border:none;
-        cursor:pointer
+        cursor:pointer;
         color:white;
         
         font-weight:bolder;
@@ -104,7 +108,7 @@ position:relative;
       padding:0.5rem 1rem;
       background-color:#e50914;
       border:none;
-      cursor:pointer
+      cursor:pointer;
       color:white;
       border-radius : 0.2rem;
       font-weight:bolder;

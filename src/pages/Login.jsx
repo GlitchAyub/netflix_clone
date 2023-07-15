@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BackgroundImage from '../components/BackgroundImage';
@@ -13,6 +13,13 @@ const Login = () => {
     password:"",
   })
   const navigate =  useNavigate()
+  useEffect(()=>{
+    onAuthStateChanged(firebaseAuth,(currentUser)=>{
+      if(currentUser) navigate("/")
+    });
+  
+  })
+  
 
   const handleLogin = async ()=>{
     // console.log(formValue);
@@ -25,9 +32,6 @@ const Login = () => {
     }
   }
 
-  onAuthStateChanged(firebaseAuth,(currentUser)=>{
-    if(currentUser) navigate("/")
-  });
 
   return (
     <Container >
@@ -57,7 +61,7 @@ position:relative;
   position:absolute;
   top:0;
   left:0;
-  background-color:rgba(0,0,0,0.5)
+  background-color:rgba(0,0,0,0.5);
   height:100vh;
   width:100vw;
   display:grid;
@@ -81,7 +85,7 @@ position:relative;
           padding:0.5rem 1rem;
           background-color:#e50914;
           border:none;
-          cursor:pointer
+          cursor:pointer;
           color:white;
           border-radius : 0.2rem;
           font-weight:bolder;
